@@ -3,11 +3,12 @@ name: Deploy Vite React App to GitHub Pages
 on:
   push:
     branches:
-      - main  # 배포를 트리거할 브랜치 이름
+      - main  # 메인 브랜치 이름 확인 (master면 바꾸기)
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -24,9 +25,8 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v6
+        uses: peaceiris/actions-gh-pages@v4  # ← v6 → v4로 수정
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          # 만약 GitHub Pages를 gh-pages 브랜치에 설정했다면
-          # publish_branch: gh-pages
+          publish_dir: ./dist    # 빌드된 폴더
+          publish_branch: gh-pages  # Pages 브랜치
