@@ -3,7 +3,7 @@ name: Deploy Vite React App to GitHub Pages
 on:
   push:
     branches:
-      - main  # 메인 브랜치 이름 확인 (master면 바꾸기)
+      - main  # 실제 메인 브랜치 이름 확인
 
 jobs:
   build-and-deploy:
@@ -19,13 +19,14 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        # ✅ package-lock.json 없어도 설치 가능하도록 npm install 사용
+        run: npm install
 
       - name: Build
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4  # ← v6 → v4로 수정
+        uses: peaceiris/actions-gh-pages@v4  # 안정적인 v4 사용
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist    # 빌드된 폴더
